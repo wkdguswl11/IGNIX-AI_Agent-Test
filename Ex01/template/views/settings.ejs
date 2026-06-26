@@ -166,7 +166,9 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
   <div class="main">
     <div class="topbar"><div class="topbar-title">설정</div><div class="topbar-right"><i class="ti ti-calendar"></i><span id="nowText"></span><button class="refresh-btn" type="button" onclick="location.reload()"><i class="ti ti-refresh"></i>새로고침</button><div class="alert-area"><button class="alert-button" id="topbarAlertButton" type="button" title="알림"><i class="ti ti-bell"></i><span class="alert-dot" id="topbarAlertDot"></span></button><div class="alert-dropdown" id="topbarAlertDropdown"><div class="alert-head"><strong>알림</strong><button type="button" id="topbarReadAllBtn">모두 읽음</button></div><div class="alert-list" id="topbarAlertList"></div><button class="alert-more" type="button" id="topbarOpenAllAlertsBtn">전체 알림 보기 →</button></div></div></div></div>
     <div class="body">
-      <div class="set-sidebar"><div class="set-nav"><div class="set-nav-section">감지 설정</div><div class="set-nav-item active" data-target="section-threshold" onclick="goTo('section-threshold')"><i class="ti ti-flame"></i>감지 임계값</div><div class="set-nav-section">시스템</div><div class="set-nav-item" data-target="section-network" onclick="goTo('section-network')"><i class="ti ti-wifi"></i>네트워크</div><div class="set-nav-item" data-target="section-data" onclick="goTo('section-data')"><i class="ti ti-database"></i>데이터 관리</div><div class="set-nav-section">계정</div><div class="set-nav-item" data-target="section-account" onclick="goTo('section-account')"><i class="ti ti-user"></i>계정 정보</div></div></div>
+      <div class="set-sidebar"><div class="set-nav"><div class="set-nav-section">감지 설정</div><div class="set-nav-item active" data-target="section-threshold" onclick="goTo('section-threshold')"><i class="ti ti-flame"></i>감지 임계값</div><div class="set-nav-section">시스템</div><!-- 네트워크/센서 통신 메뉴 임시 비활성화
+        <div class="set-nav-item" data-target="section-network" onclick="goTo('section-network')"><i class="ti ti-wifi"></i>네트워크</div>
+      --><div class="set-nav-item" data-target="section-data" onclick="goTo('section-data')"><i class="ti ti-database"></i>데이터 관리</div><div class="set-nav-section">계정</div><div class="set-nav-item" data-target="section-account" onclick="goTo('section-account')"><i class="ti ti-user"></i>계정 정보</div></div></div>
 
       <div class="set-content" id="setContent">
         <div class="panel" id="section-threshold">
@@ -180,6 +182,7 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
           <div class="save-bar" id="operatorActions"><button class="btn" type="button" onclick="resetThresholds()"><i class="ti ti-rotate-clockwise"></i>초기화</button><button class="btn blue" type="button" onclick="saveThresholds()"><i class="ti ti-device-floppy"></i>저장</button></div>
         </div>
 
+        <!-- 네트워크/센서 통신 설정 패널 임시 비활성화
         <div class="panel" id="section-network">
           <div class="panel-header"><div class="panel-icon blue"><i class="ti ti-wifi"></i></div><div><div class="panel-title">네트워크 / 센서 통신</div><div class="panel-sub">Wi-Fi 연결 및 데이터 전송 기준을 확인합니다.</div></div></div>
           <div class="grid3"><div class="field-group"><div class="field-label">데이터 전송 주기</div><select id="dataInterval" class="select-field" style="width:100%"><option>10초</option><option>30초</option><option>1분</option></select></div><div class="field-group"><div class="field-label">Wi-Fi 재연결 대기</div><select id="reconnectDelay" class="select-field" style="width:100%"><option>10초</option><option>30초</option><option>1분</option></select></div><div class="field-group"><div class="field-label">연결 시도 횟수</div><select id="retryCount" class="select-field" style="width:100%"><option>3회</option><option>5회</option><option>10회</option></select></div></div>
@@ -188,6 +191,7 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
           <div class="info-box"><i class="ti ti-info-circle"></i>데이터 전송 주기를 짧게 설정할수록 실시간성은 높아지지만 센서 배터리 소모가 증가할 수 있습니다.</div>
           <div class="save-bar"><button class="btn blue" type="button" onclick="saveNetworkSettings()"><i class="ti ti-device-floppy"></i>저장</button></div>
         </div>
+        -->
 
         <div class="panel" id="section-data">
           <div class="panel-header"><div class="panel-icon purple"><i class="ti ti-database"></i></div><div><div class="panel-title">데이터 관리</div><div class="panel-sub">센서 데이터 보관 기간 및 내보내기 기준을 설정합니다.</div></div></div>
@@ -237,10 +241,12 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
       document.getElementById("nowText").textContent = now.getFullYear() + "." + String(now.getMonth() + 1).padStart(2, "0") + "." + String(now.getDate()).padStart(2, "0") + " " + String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0") + ":" + String(now.getSeconds()).padStart(2, "0");
     }
 
+    /* 네트워크/센서 통신 패널 임시 비활성화
     function setServerCheckTime(){
       const now = new Date();
       document.getElementById("serverCheckTime").textContent = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0") + ":" + String(now.getSeconds()).padStart(2, "0");
     }
+    */
 
     function toggleSwitch(toggleId, labelId){
       const toggle = document.getElementById(toggleId);
@@ -326,10 +332,12 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
 
     function applySystemSettings(settings){
       if (!settings) return;
+      /* 네트워크/센서 통신 설정값 임시 비활성화
       setSelectValue("dataInterval", settings.dataInterval);
       setSelectValue("reconnectDelay", settings.reconnectDelay);
       setSelectValue("retryCount", settings.retryCount);
       setToggleValue("offlineAlertToggle", "offlineAlertLabel", settings.offlineAlert === "Y");
+      */
       setSelectValue("retentionPeriod", settings.retentionPeriod);
       setToggleValue("autoDeleteToggle", "autoDeleteLabel", settings.autoDelete === "Y");
       setSelectValue("exportRange", settings.exportRange);
@@ -342,6 +350,7 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
       applySystemSettings(result.settings);
     }
 
+    /* 네트워크/센서 통신 저장 기능 임시 비활성화
     async function saveNetworkSettings(){
       const body = {
         dataInterval: document.getElementById("dataInterval").value,
@@ -354,6 +363,7 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
       alert(result.message || (result.success ? "저장되었습니다." : "저장에 실패했습니다."));
       if (result.success) applySystemSettings(result.settings);
     }
+    */
 
     async function saveDataSettings(){
       const body = {
@@ -370,10 +380,12 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
     function exportSettingsCsv(){
       const rows = [
         ["항목", "값"],
+        /* 네트워크/센서 통신 CSV 항목 임시 비활성화
         ["데이터 전송 주기", document.getElementById("dataInterval").value],
         ["Wi-Fi 재연결 대기", document.getElementById("reconnectDelay").value],
         ["연결 시도 횟수", document.getElementById("retryCount").value],
         ["오프라인 센서 자동 알림", isToggleOn("offlineAlertToggle") === "Y" ? "활성" : "비활성"],
+        */
         ["데이터 보관 기간", document.getElementById("retentionPeriod").value],
         ["오래된 데이터 자동 삭제", isToggleOn("autoDeleteToggle") === "Y" ? "활성" : "비활성"],
         ["내보내기 범위", document.getElementById("exportRange").value],
@@ -441,7 +453,8 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
 
     function syncActiveNavByScroll(){
       const sc = document.getElementById("setContent");
-      const sections = ["section-threshold", "section-network", "section-data", "section-account"];
+      // "section-network"는 네트워크/센서 통신 패널 임시 비활성화로 제외
+      const sections = ["section-threshold", "section-data", "section-account"];
       let current = sections[0];
       sections.forEach((id) => {
         const el = document.getElementById(id);
@@ -532,7 +545,7 @@ window.__FIDS_USER__ = <%- JSON.stringify(currentUser) %>;</script>
       loadTopbarAlerts();
     }
     setNowText();
-    setServerCheckTime();
+    // setServerCheckTime(); // 네트워크/센서 통신 패널 임시 비활성화
     setInterval(setNowText, 1000);
     applyPermission();
     loadThresholds();
